@@ -1,11 +1,23 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="scroll-smooth" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BindPay — Don't Just Pay. Bind the Deal.</title>
-    <!-- Favicon using official logo -->
-    <link rel="icon" type="image/png" href="logo.png.png">
+    <!-- Favicon (follows browser theme) -->
+    <link rel="icon" type="image/png" href="logodark.png" media="(prefers-color-scheme: dark)">
+    <link rel="icon" type="image/png" href="logolight.png" media="(prefers-color-scheme: light)">
+    <!-- Apply saved theme before paint (prevents flash) -->
+    <script>
+        (function () {
+            var t = 'dark';
+            try {
+                var saved = localStorage.getItem('bindpay-theme');
+                if (saved === 'light' || saved === 'dark') t = saved;
+            } catch (e) {}
+            document.documentElement.setAttribute('data-theme', t);
+        })();
+    </script>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -13,14 +25,16 @@
             theme: {
                 extend: {
                     colors: {
-                        obsidian: '#0B0B0D',
-                        offwhite: '#F5F2EA',
-                        acidlime: '#C8FF32',
+                        obsidian: 'rgb(var(--c-obsidian) / <alpha-value>)',
+                        offwhite: 'rgb(var(--c-offwhite) / <alpha-value>)',
+                        acidlime: 'rgb(var(--c-acidlime) / <alpha-value>)',
                         electricpurple: '#8B5CF6',
                         hotorange: '#FF5A36',
-                        softgray: '#A7A7A7',
-                        carddark: '#141418',
-                        carddarker: '#0F0F12',
+                        softgray: 'rgb(var(--c-softgray) / <alpha-value>)',
+                        carddark: 'rgb(var(--c-carddark) / <alpha-value>)',
+                        carddarker: 'rgb(var(--c-carddarker) / <alpha-value>)',
+                        white: 'rgb(var(--c-white) / <alpha-value>)',
+                        problemcard: 'rgb(var(--c-problemcard) / <alpha-value>)',
                     },
                     fontFamily: {
                         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
@@ -36,32 +50,70 @@
     <!-- FontAwesome for clean icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* ---------- Theme variables (space-separated RGB) ---------- */
+        :root,
+        html[data-theme="dark"] {
+            --c-obsidian: 11 11 13;
+            --c-offwhite: 245 242 234;
+            --c-acidlime: 200 255 50;
+            --c-softgray: 167 167 167;
+            --c-carddark: 20 20 24;
+            --c-carddarker: 15 15 18;
+            --c-white: 255 255 255;        /* used for subtle borders / overlays */
+            --c-problemcard: 255 255 255;  /* cards inside the "pain point" section */
+            --glow-rgb: 200, 255, 50;
+            --scroll-thumb: #27272A;
+            color-scheme: dark;
+        }
+        html[data-theme="light"] {
+            --c-obsidian: 245 242 234;
+            --c-offwhite: 11 11 13;
+            --c-acidlime: 77 124 15;
+            --c-softgray: 90 90 96;
+            --c-carddark: 255 255 255;
+            --c-carddarker: 236 232 222;
+            --c-white: 0 0 0;
+            --c-problemcard: 20 20 24;
+            --glow-rgb: 77, 124, 15;
+            --scroll-thumb: #C9C4B5;
+            color-scheme: light;
+        }
+
         body {
-            background-color: #0B0B0D;
-            color: #F5F2EA;
+            background-color: rgb(var(--c-obsidian));
+            color: rgb(var(--c-offwhite));
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
         /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: #0B0B0D;
+            background: rgb(var(--c-obsidian));
         }
         ::-webkit-scrollbar-thumb {
-            background: #27272A;
+            background: var(--scroll-thumb);
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #C8FF32;
+            background: rgb(var(--c-acidlime));
         }
         .glow-lime {
-            box-shadow: 0 0 40px -10px rgba(200, 255, 50, 0.15);
+            box-shadow: 0 0 40px -10px rgba(var(--glow-rgb), 0.15);
         }
         .glow-lime-hover:hover {
-            box-shadow: 0 0 30px rgba(200, 255, 50, 0.3);
+            box-shadow: 0 0 30px rgba(var(--glow-rgb), 0.3);
         }
+
+        /* ---------- Logo variants ---------- */
+        html[data-theme="dark"] .logo-light { display: none; }
+        html[data-theme="light"] .logo-dark { display: none; }
+
+        /* ---------- Theme toggle icons ---------- */
+        html[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+        html[data-theme="light"] .theme-toggle .icon-sun { display: none; }
     </style>
 </head>
 <body class="bg-obsidian text-offwhite antialiased selection:bg-acidlime selection:text-obsidian">
@@ -71,7 +123,8 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <!-- Brand Logo -->
             <a href="#" class="flex items-center gap-3 group focus:outline-none">
-                <img src="logo.png.png" alt="BindPay Logo" class="h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105">
+                <img src="logodark.png" alt="BindPay Logo" class="logo-dark h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105">
+                <img src="logolight.png" alt="BindPay Logo" class="logo-light h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105">
             </a>
 
             <!-- Desktop Navigation Links -->
@@ -85,16 +138,26 @@
 
             <!-- Action CTA -->
             <div class="hidden md:flex items-center space-x-4">
+                <button type="button" class="theme-toggle w-10 h-10 rounded-full border border-white/15 bg-white/5 hover:bg-white/10 text-offwhite flex items-center justify-center transition-colors focus:outline-none" aria-label="Switch between dark and light theme" title="Switch theme">
+                    <i class="fa-solid fa-sun icon-sun"></i>
+                    <i class="fa-solid fa-moon icon-moon"></i>
+                </button>
                 <a href="#contact" class="bg-acidlime text-obsidian font-semibold px-5 py-2.5 rounded-full text-sm transition-all duration-300 glow-lime-hover hover:bg-opacity-90 flex items-center gap-2">
                     <span>Get in Touch</span>
                     <i class="fa-solid fa-arrow-right text-xs"></i>
                 </a>
             </div>
 
-            <!-- Mobile Menu Button -->
-            <button id="mobile-menu-btn" class="md:hidden text-offwhite p-2 focus:outline-none" aria-label="Toggle menu">
-                <i class="fa-solid fa-bars text-xl"></i>
-            </button>
+            <!-- Mobile: theme toggle + menu button -->
+            <div class="md:hidden flex items-center gap-2">
+                <button type="button" class="theme-toggle w-10 h-10 rounded-full border border-white/15 bg-white/5 hover:bg-white/10 text-offwhite flex items-center justify-center transition-colors focus:outline-none" aria-label="Switch between dark and light theme" title="Switch theme">
+                    <i class="fa-solid fa-sun icon-sun"></i>
+                    <i class="fa-solid fa-moon icon-moon"></i>
+                </button>
+                <button id="mobile-menu-btn" class="text-offwhite p-2 focus:outline-none" aria-label="Toggle menu">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
         </div>
 
         <!-- Mobile Navigation Drawer -->
@@ -239,7 +302,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 
                 <!-- Problem Card 1 -->
-                <div class="bg-white p-8 rounded-2xl border border-obsidian/10 shadow-sm flex flex-col justify-between">
+                <div class="bg-problemcard p-8 rounded-2xl border border-obsidian/10 shadow-sm flex flex-col justify-between">
                     <div>
                         <div class="w-12 h-12 rounded-xl bg-hotorange/10 text-hotorange flex items-center justify-center text-lg font-bold mb-6">
                             01
@@ -252,7 +315,7 @@
                 </div>
 
                 <!-- Problem Card 2 -->
-                <div class="bg-white p-8 rounded-2xl border border-obsidian/10 shadow-sm flex flex-col justify-between">
+                <div class="bg-problemcard p-8 rounded-2xl border border-obsidian/10 shadow-sm flex flex-col justify-between">
                     <div>
                         <div class="w-12 h-12 rounded-xl bg-hotorange/10 text-hotorange flex items-center justify-center text-lg font-bold mb-6">
                             02
@@ -265,7 +328,7 @@
                 </div>
 
                 <!-- Problem Card 3 -->
-                <div class="bg-white p-8 rounded-2xl border border-obsidian/10 shadow-sm flex flex-col justify-between">
+                <div class="bg-problemcard p-8 rounded-2xl border border-obsidian/10 shadow-sm flex flex-col justify-between">
                     <div>
                         <div class="w-12 h-12 rounded-xl bg-hotorange/10 text-hotorange flex items-center justify-center text-lg font-bold mb-6">
                             03
@@ -278,7 +341,7 @@
                 </div>
 
                 <!-- Problem Card 4 -->
-                <div class="bg-white p-8 rounded-2xl border border-obsidian/10 shadow-sm flex flex-col justify-between">
+                <div class="bg-problemcard p-8 rounded-2xl border border-obsidian/10 shadow-sm flex flex-col justify-between">
                     <div>
                         <div class="w-12 h-12 rounded-xl bg-electricpurple/10 text-electricpurple flex items-center justify-center text-lg font-bold mb-6">
                             04
@@ -291,7 +354,7 @@
                 </div>
 
                 <!-- Problem Card 5 -->
-                <div class="bg-white p-8 rounded-2xl border border-obsidian/10 shadow-sm flex flex-col justify-between lg:col-span-2">
+                <div class="bg-problemcard p-8 rounded-2xl border border-obsidian/10 shadow-sm flex flex-col justify-between lg:col-span-2">
                     <div>
                         <div class="w-12 h-12 rounded-xl bg-electricpurple/10 text-electricpurple flex items-center justify-center text-lg font-bold mb-6">
                             05
@@ -564,7 +627,7 @@
             
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                 
-                <div class="lg:col-span-6 space-y-6">
+                <div class="lg:col-span-12 max-w-2xl mx-auto w-full space-y-6 text-center">
                     <span class="text-xs font-bold uppercase tracking-widest text-acidlime block font-mono">GET IN TOUCH</span>
                     <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
                         LET'S BUILD TRUST INTO EVERY DEAL.
@@ -574,7 +637,7 @@
                     </p>
 
                     <div class="space-y-4 pt-4">
-                        <div class="flex items-center gap-4 bg-carddark p-4 rounded-xl border border-white/10 max-w-md">
+                        <div class="flex items-center gap-4 bg-carddark p-4 rounded-xl border border-white/10 max-w-md mx-auto text-left">
                             <div class="w-10 h-10 rounded-lg bg-acidlime/10 text-acidlime flex items-center justify-center font-bold">
                                 <i class="fa-solid fa-user-tie"></i>
                             </div>
@@ -584,7 +647,7 @@
                             </div>
                         </div>
 
-                        <div class="flex items-center gap-4 bg-carddark p-4 rounded-xl border border-white/10 max-w-md">
+                        <div class="flex items-center gap-4 bg-carddark p-4 rounded-xl border border-white/10 max-w-md mx-auto text-left">
                             <div class="w-10 h-10 rounded-lg bg-acidlime/10 text-acidlime flex items-center justify-center font-bold">
                                 <i class="fa-solid fa-phone"></i>
                             </div>
@@ -596,7 +659,7 @@
 
                         <!-- WhatsApp Action Link -->
                         <div class="pt-2">
-                            <a href="https://wa.me/923258734745?text=Hi%20Mirza%20Mahad%20Baig,%20I%20reviewed%20the%20BindPay%20startup%20concept%20and%20would%20like%20to%20connect." target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-3 bg-[#25D366] text-obsidian font-bold px-6 py-3.5 rounded-full text-sm transition-all duration-300 hover:opacity-90">
+                            <a href="https://wa.me/923258734745?text=Hi%20Mirza%20Mahad%20Baig,%20I%20reviewed%20the%20BindPay%20startup%20concept%20and%20would%20like%20to%20connect." target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-3 bg-[#25D366] text-[#0B0B0D] font-bold px-6 py-3.5 rounded-full text-sm transition-all duration-300 hover:opacity-90">
                                 <i class="fa-brands fa-whatsapp text-lg"></i>
                                 <span>Chat via WhatsApp (+92 325 8734745)</span>
                             </a>
@@ -604,12 +667,18 @@
                     </div>
                 </div>
 
+            </div>
+
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer class="bg-carddarker border-t border-white/10 py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-white/10">
                 <div class="flex items-center gap-3">
-                    <img src="logo.png.png" alt="BindPay Logo" class="h-8 w-auto object-contain">
+                    <img src="logodark.png" alt="BindPay Logo" class="logo-dark h-8 w-auto object-contain">
+                    <img src="logolight.png" alt="BindPay Logo" class="logo-light h-8 w-auto object-contain">
                 </div>
                 <div class="text-softgray text-xs text-center md:text-right">
                     <p class="font-semibold text-offwhite">BindPay Technologies Pvt Ltd</p>
@@ -628,7 +697,7 @@
         </div>
     </footer>
 
-    <!-- JavaScript for Mobile Menu & Simulator -->
+    <!-- JavaScript for Mobile Menu, Simulator & Theme Toggle -->
     <script>
         // Mobile Menu Toggle
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
@@ -661,15 +730,15 @@
             document.getElementById('sim-progress').style.width = simProgressWidths[currentStep - 1];
         }
 
-        // Contact Form Handler (without alert)
-        function handleContactSubmit(event) {
-            event.preventDefault();
-            const form = document.getElementById('contact-form');
-            const successBox = document.getElementById('form-success');
-            
-            form.style.display = 'none';
-            successBox.classList.remove('hidden');
-        }
+        // Theme Toggle (dark / light) — remembers choice
+        document.querySelectorAll('.theme-toggle').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const root = document.documentElement;
+                const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+                root.setAttribute('data-theme', next);
+                try { localStorage.setItem('bindpay-theme', next); } catch (e) {}
+            });
+        });
     </script>
 </body>
 </html>
