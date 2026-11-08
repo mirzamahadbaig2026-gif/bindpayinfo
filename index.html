@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BindPay — Don't Just Pay. Bind the Deal.</title>
+    <!-- Favicon using official logo -->
+    <link rel="icon" type="image/png" href="logo.png.png">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        obsidian: '#0B0B0D',
+                        offwhite: '#F5F2EA',
+                        acidlime: '#C8FF32',
+                        electricpurple: '#8B5CF6',
+                        hotorange: '#FF5A36',
+                        softgray: '#A7A7A7',
+                        carddark: '#141418',
+                        carddarker: '#0F0F12',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome for clean icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #0B0B0D;
+            color: #F5F2EA;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0B0B0D;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #27272A;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #C8FF32;
+        }
+        .glow-lime {
+            box-shadow: 0 0 40px -10px rgba(200, 255, 50, 0.15);
+        }
+        .glow-lime-hover:hover {
+            box-shadow: 0 0 30px rgba(200, 255, 50, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-obsidian text-offwhite antialiased selection:bg-acidlime selection:text-obsidian">
+
+    <!-- Header & Navigation -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-obsidian/90 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group focus:outline-none">
+                <img src="logo.png.png" alt="BindPay Logo" class="h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105">
+            </a>
+
+            <!-- Desktop Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-softgray">
+                <a href="#home" class="hover:text-acidlime transition-colors">Home</a>
+                <a href="#how-it-works" class="hover:text-acidlime transition-colors">How It Works</a>
+                <a href="#use-cases" class="hover:text-acidlime transition-colors">Use Cases</a>
+                <a href="#about" class="hover:text-acidlime transition-colors">About</a>
+                <a href="#contact" class="hover:text-acidlime transition-colors">Contact</a>
+            </nav>
+
+            <!-- Action CTA -->
+            <div class="hidden md:flex items-center space-x-4">
+                <a href="#contact" class="bg-acidlime text-obsidian font-semibold px-5 py-2.5 rounded-full text-sm transition-all duration-300 glow-lime-hover hover:bg-opacity-90 flex items-center gap-2">
+                    <span>Get in Touch</span>
+                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-offwhite p-2 focus:outline-none" aria-label="Toggle menu">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation Drawer -->
+        <div id="mobile-menu" class="hidden md:hidden bg-obsidian border-b border-white/10 px-6 pt-4 pb-6 space-y-4">
+            <a href="#home" class="block text-base font-medium text-offwhite hover:text-acidlime mobile-link">Home</a>
+            <a href="#how-it-works" class="block text-base font-medium text-offwhite hover:text-acidlime mobile-link">How It Works</a>
+            <a href="#use-cases" class="block text-base font-medium text-offwhite hover:text-acidlime mobile-link">Use Cases</a>
+            <a href="#about" class="block text-base font-medium text-offwhite hover:text-acidlime mobile-link">About</a>
+            <a href="#contact" class="block text-base font-medium text-offwhite hover:text-acidlime mobile-link">Contact</a>
+            <div class="pt-2">
+                <a href="#contact" class="block text-center bg-acidlime text-obsidian font-semibold py-3 rounded-full text-sm mobile-link">Get in Touch</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="pt-32 pb-20 md:pt-44 md:pb-32 relative overflow-hidden">
+        <!-- Background subtle glow elements -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-acidlime/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+                
+                <!-- Hero Left Content -->
+                <div class="lg:col-span-7 space-y-8">
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-acidlime text-xs font-semibold tracking-wider uppercase">
+                        <span class="w-2 h-2 rounded-full bg-acidlime animate-pulse"></span>
+                        <span>Transaction Trust, Reimagined</span>
+                    </div>
+
+                    <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.08]">
+                        Don't Just Pay. <br>
+                        <span class="text-acidlime">Bind the Deal.</span>
+                    </h1>
+
+                    <p class="text-lg sm:text-xl text-softgray max-w-2xl leading-relaxed">
+                        Making transactions more trustworthy with a structured way for buyers and sellers to agree, track and complete their deals.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
+                        <a href="#how-it-works" class="bg-acidlime text-obsidian font-semibold px-8 py-4 rounded-full text-base text-center transition-all duration-300 glow-lime-hover hover:scale-[1.02]">
+                            Explore How It Works
+                        </a>
+                        <a href="#contact" class="bg-white/5 hover:bg-white/10 border border-white/15 text-offwhite font-medium px-8 py-4 rounded-full text-base text-center transition-all duration-300">
+                            Contact Us
+                        </a>
+                    </div>
+
+                    <!-- Startup Status Badge -->
+                    <div class="pt-4 flex items-center gap-3 text-xs text-softgray border-t border-white/10 max-w-md">
+                        <span class="px-2 py-0.5 rounded bg-electricpurple/20 text-electricpurple font-semibold">Concept Stage</span>
+                        <span>Designed for Pakistan's evolving digital commerce & freelancing landscape.</span>
+                    </div>
+                </div>
+
+                <!-- Hero Right: Interactive Transaction UI Mockup -->
+                <div class="lg:col-span-5">
+                    <div class="bg-carddark border border-white/10 rounded-2xl p-6 shadow-2xl relative glow-lime">
+                        <div class="flex items-center justify-between pb-4 mb-4 border-b border-white/10">
+                            <div class="flex items-center gap-2">
+                                <div class="w-3 h-3 rounded-full bg-hotorange"></div>
+                                <div class="w-3 h-3 rounded-full bg-acidlime"></div>
+                                <div class="w-3 h-3 rounded-full bg-electricpurple"></div>
+                            </div>
+                            <span class="text-xs font-mono text-softgray">DEAL_ID #BP-9482</span>
+                        </div>
+
+                        <!-- Transaction Flow Node Graph -->
+                        <div class="space-y-4">
+                            <div class="text-xs font-semibold uppercase tracking-wider text-softgray mb-1">Live Deal Flow Simulation</div>
+                            
+                            <!-- Node 1: Buyer -->
+                            <div class="bg-carddarker p-4 rounded-xl border border-white/10 flex items-center justify-between transition-all duration-300 hover:border-acidlime/50">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-lg bg-electricpurple/20 text-electricpurple flex items-center justify-center font-bold">
+                                        <i class="fa-solid fa-user"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-semibold">Buyer (Ahmed K.)</div>
+                                        <div class="text-xs text-softgray">Funds secured under agreed terms</div>
+                                    </div>
+                                </div>
+                                <span class="text-xs px-2 py-1 bg-acidlime/10 text-acidlime rounded font-mono">Ready</span>
+                            </div>
+
+                            <!-- Flow Connector -->
+                            <div class="flex justify-center my-[-8px] relative z-10">
+                                <div class="bg-obsidian border border-white/20 text-acidlime px-3 py-1 rounded-full text-xs font-mono flex items-center gap-1 shadow">
+                                    <span>BINDPAY ESCROW</span>
+                                    <i class="fa-solid fa-shield-halved text-xs"></i>
+                                </div>
+                            </div>
+
+                            <!-- Node 2: Seller -->
+                            <div class="bg-carddarker p-4 rounded-xl border border-white/10 flex items-center justify-between transition-all duration-300 hover:border-acidlime/50">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-lg bg-hotorange/20 text-hotorange flex items-center justify-center font-bold">
+                                        <i class="fa-solid fa-store"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-semibold">Seller (TechStore PK)</div>
+                                        <div class="text-xs text-softgray">Fulfilling order conditions</div>
+                                    </div>
+                                </div>
+                                <span class="text-xs px-2 py-1 bg-hotorange/10 text-hotorange rounded font-mono">In Progress</span>
+                            </div>
+                        </div>
+
+                        <!-- Interactive Simulator Controller -->
+                        <div class="mt-6 pt-4 border-t border-white/10">
+                            <div class="flex justify-between text-xs text-softgray mb-2">
+                                <span>Status: <strong class="text-offwhite" id="sim-status">1. Terms Agreed</strong></span>
+                                <span id="sim-step" class="font-mono text-acidlime">Step 1 of 3</span>
+                            </div>
+                            <div class="w-full bg-obsidian h-2 rounded-full overflow-hidden">
+                                <div id="sim-progress" class="bg-acidlime h-full w-1/3 transition-all duration-500"></div>
+                            </div>
+                            <button onclick="nextSimStep()" class="mt-4 w-full py-2.5 bg-white/10 hover:bg-white/20 text-offwhite text-xs font-semibold rounded-lg transition-colors flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-rotate"></i>
+                                <span>Simulate Next Transaction Phase</span>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section (Light Section Contrast for Editorial Feel) -->
+    <section class="py-24 bg-offwhite text-obsidian relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="max-w-3xl mb-16">
+                <span class="text-xs font-bold uppercase tracking-widest text-obsidian/60 block mb-3 font-mono">THE PAIN POINT</span>
+                <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
+                    A PAYMENT IS EASY. TRUST IS THE HARD PART.
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Problem Card 1 -->
+                <div class="bg-white p-8 rounded-2xl border border-obsidian/10 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-hotorange/10 text-hotorange flex items-center justify-center text-lg font-bold mb-6">
+                            01
+                        </div>
+                        <h3 class="text-lg font-bold mb-3">Buyer Hesitation</h3>
+                        <p class="text-obsidian/70 text-sm leading-relaxed">
+                            Buyers hesitate before making advance payments to online sellers or unfamiliar service providers without guarantees.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Problem Card 2 -->
+                <div class="bg-white p-8 rounded-2xl border border-obsidian/10 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-hotorange/10 text-hotorange flex items-center justify-center text-lg font-bold mb-6">
+                            02
+                        </div>
+                        <h3 class="text-lg font-bold mb-3">Uncertain Listings</h3>
+                        <p class="text-obsidian/70 text-sm leading-relaxed">
+                            Fake sellers and misleading social media listings create widespread uncertainty and financial risk in digital commerce.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Problem Card 3 -->
+                <div class="bg-white p-8 rounded-2xl border border-obsidian/10 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-hotorange/10 text-hotorange flex items-center justify-center text-lg font-bold mb-6">
+                            03
+                        </div>
+                        <h3 class="text-lg font-bold mb-3">Delivery Failures</h3>
+                        <p class="text-obsidian/70 text-sm leading-relaxed">
+                            Ordered products or contracted services may never be delivered as promised after the payment has already been sent.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Problem Card 4 -->
+                <div class="bg-white p-8 rounded-2xl border border-obsidian/10 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-electricpurple/10 text-electricpurple flex items-center justify-center text-lg font-bold mb-6">
+                            04
+                        </div>
+                        <h3 class="text-lg font-bold mb-3">Seller Trust Gap</h3>
+                        <p class="text-obsidian/70 text-sm leading-relaxed">
+                            Legitimate independent sellers also struggle to build instant credibility and trust with new customers online.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Problem Card 5 -->
+                <div class="bg-white p-8 rounded-2xl border border-obsidian/10 shadow-sm flex flex-col justify-between lg:col-span-2">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-electricpurple/10 text-electricpurple flex items-center justify-center text-lg font-bold mb-6">
+                            05
+                        </div>
+                        <h3 class="text-lg font-bold mb-3">Difficult Disputes & Refunds</h3>
+                        <p class="text-obsidian/70 text-sm leading-relaxed">
+                            When things go wrong, disputes and refunds become messy, stressful, and difficult to resolve without structured mediation or predefined terms.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section id="solution" class="py-24 bg-obsidian text-offwhite border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-16">
+                <div class="lg:col-span-6">
+                    <span class="text-xs font-bold uppercase tracking-widest text-acidlime block mb-3 font-mono">OUR APPROACH</span>
+                    <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight mb-6">
+                        MEET BINDPAY.
+                    </h2>
+                    <p class="text-softgray text-base sm:text-lg leading-relaxed mb-6">
+                        BindPay aims to make transactions more structured and transparent. It provides a process where buyers and sellers can agree on transaction terms, track progress and follow defined payment release and dispute procedures.
+                    </p>
+                    <div class="inline-block px-4 py-2 bg-white/5 rounded-lg border border-white/10 text-xs text-softgray">
+                        <strong class="text-offwhite font-medium">Early-Stage Concept Note:</strong> Features described represent our planned framework and startup architecture.
+                    </div>
+                </div>
+
+                <div class="lg:col-span-6 grid grid-cols-1 gap-6">
+                    <!-- Feature 1 -->
+                    <div class="bg-carddark p-6 rounded-2xl border border-white/10 flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-xl bg-acidlime text-obsidian flex-shrink-0 flex items-center justify-center font-bold">
+                            01
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold mb-1">Agreed Transaction Terms</h3>
+                            <p class="text-softgray text-sm leading-relaxed">Both parties explicitly agree on price, deliverables, and conditions before any money is moved.</p>
+                        </div>
+                    </div>
+
+                    <!-- Feature 2 -->
+                    <div class="bg-carddark p-6 rounded-2xl border border-white/10 flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-xl bg-acidlime text-obsidian flex-shrink-0 flex items-center justify-center font-bold">
+                            02
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold mb-1">Transaction Tracking</h3>
+                            <p class="text-softgray text-sm leading-relaxed">Real-time status updates showing whether the deal is pending, funded, fulfilled, or completed.</p>
+                        </div>
+                    </div>
+
+                    <!-- Feature 3 -->
+                    <div class="bg-carddark p-6 rounded-2xl border border-white/10 flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-xl bg-acidlime text-obsidian flex-shrink-0 flex items-center justify-center font-bold">
+                            03
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold mb-1">Structured Dispute Process</h3>
+                            <p class="text-softgray text-sm leading-relaxed">A clear, objective framework to handle disagreements, refunds, and resolutions without ambiguity.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="py-24 bg-carddarker relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-20">
+                <span class="text-xs font-bold uppercase tracking-widest text-acidlime block mb-3 font-mono">WORKFLOW</span>
+                <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight mb-4">
+                    How BindPay Works
+                </h2>
+                <p class="text-softgray text-base sm:text-lg">
+                    A simple 5-step process designed to eliminate uncertainty and build mutual accountability.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                
+                <!-- Step 1 -->
+                <div class="bg-carddark p-6 rounded-2xl border border-white/10 relative flex flex-col justify-between">
+                    <div>
+                        <div class="text-3xl font-extrabold font-mono text-acidlime mb-4">01</div>
+                        <h3 class="text-base font-bold mb-2">Create a Deal</h3>
+                        <p class="text-softgray text-sm leading-relaxed">
+                            The seller creates a transaction with the amount and agreed conditions.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-white/10 text-xs text-softgray font-mono">Initiation</div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="bg-carddark p-6 rounded-2xl border border-white/10 relative flex flex-col justify-between">
+                    <div>
+                        <div class="text-3xl font-extrabold font-mono text-acidlime mb-4">02</div>
+                        <h3 class="text-base font-bold mb-2">Share the Deal</h3>
+                        <p class="text-softgray text-sm leading-relaxed">
+                            The buyer receives a transaction link and reviews the details.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-white/10 text-xs text-softgray font-mono">Review & Verify</div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="bg-carddark p-6 rounded-2xl border border-white/10 relative flex flex-col justify-between">
+                    <div>
+                        <div class="text-3xl font-extrabold font-mono text-acidlime mb-4">03</div>
+                        <h3 class="text-base font-bold mb-2">Complete Payment</h3>
+                        <p class="text-softgray text-sm leading-relaxed">
+                            Payment is made through an appropriate payment arrangement.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-white/10 text-xs text-softgray font-mono">Secured State</div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="bg-carddark p-6 rounded-2xl border border-white/10 relative flex flex-col justify-between">
+                    <div>
+                        <div class="text-3xl font-extrabold font-mono text-acidlime mb-4">04</div>
+                        <h3 class="text-base font-bold mb-2">Fulfil Agreement</h3>
+                        <p class="text-softgray text-sm leading-relaxed">
+                            The seller delivers the agreed product or service.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-white/10 text-xs text-softgray font-mono">Fulfillment</div>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="bg-carddark p-6 rounded-2xl border border-white/10 relative flex flex-col justify-between md:col-span-3 lg:col-span-1">
+                    <div>
+                        <div class="text-3xl font-extrabold font-mono text-acidlime mb-4">05</div>
+                        <h3 class="text-base font-bold mb-2">Complete Deal</h3>
+                        <p class="text-softgray text-sm leading-relaxed">
+                            Payment release follows agreed conditions. Disputes handled via defined process.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-white/10 text-xs text-softgray font-mono">Resolution</div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Who Is It For? (Use Cases) -->
+    <section id="use-cases" class="py-24 bg-obsidian text-offwhite border-t border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-acidlime block mb-3 font-mono">TARGET AUDIENCE</span>
+                    <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight">
+                        Who Is It For?
+                    </h2>
+                </div>
+                <p class="text-softgray max-w-md mt-4 md:mt-0 text-sm sm:text-base">
+                    Designed for digital commerce participants across Pakistan who need accountability.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- Card 1 -->
+                <div class="bg-carddark p-8 rounded-2xl border border-white/10 hover:border-acidlime/50 transition-all duration-300">
+                    <div class="w-12 h-12 rounded-xl bg-acidlime/10 text-acidlime flex items-center justify-center text-xl font-bold mb-6">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Online Shopping</h3>
+                    <p class="text-softgray text-sm sm:text-base leading-relaxed">
+                        Buyers and independent online sellers trading via Instagram, Facebook, and independent web stores needing reliable transaction safeguards.
+                    </p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-carddark p-8 rounded-2xl border border-white/10 hover:border-acidlime/50 transition-all duration-300">
+                    <div class="w-12 h-12 rounded-xl bg-electricpurple/10 text-electricpurple flex items-center justify-center text-xl font-bold mb-6">
+                        <i class="fa-solid fa-laptop-code"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Freelancing</h3>
+                    <p class="text-softgray text-sm sm:text-base leading-relaxed">
+                        Freelancers and clients working on milestone projects who want clear deliverables and milestone-based payment release terms.
+                    </p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-carddark p-8 rounded-2xl border border-white/10 hover:border-acidlime/50 transition-all duration-300">
+                    <div class="w-12 h-12 rounded-xl bg-hotorange/10 text-hotorange flex items-center justify-center text-xl font-bold mb-6">
+                        <i class="fa-solid fa-code"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Digital Services</h3>
+                    <p class="text-softgray text-sm sm:text-base leading-relaxed">
+                        Software development, graphic design, content writing, and other specialized digital services where scope agreement is critical.
+                    </p>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="bg-carddark p-8 rounded-2xl border border-white/10 hover:border-acidlime/50 transition-all duration-300">
+                    <div class="w-12 h-12 rounded-xl bg-acidlime/10 text-acidlime flex items-center justify-center text-xl font-bold mb-6">
+                        <i class="fa-solid fa-briefcase"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Business Transactions</h3>
+                    <p class="text-softgray text-sm sm:text-base leading-relaxed">
+                        Small businesses and buyers dealing with unfamiliar parties, suppliers, or contractors for commercial goods and services.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Our Vision & About Section -->
+    <section id="about" class="py-24 bg-carddarker">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
+                
+                <!-- Vision Column -->
+                <div class="lg:col-span-6 space-y-6">
+                    <span class="text-xs font-bold uppercase tracking-widest text-acidlime block font-mono">OUR VISION</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+                        "A FUTURE WHERE TRUST IS PART OF EVERY TRANSACTION."
+                    </h2>
+                    <p class="text-softgray text-base leading-relaxed">
+                        Our vision is to make trustworthy transactions more accessible in Pakistan, helping buyers and sellers do business with greater confidence.
+                    </p>
+                </div>
+
+                <!-- About Column -->
+                <div class="lg:col-span-6 space-y-6 bg-carddark p-8 rounded-2xl border border-white/10">
+                    <span class="text-xs font-bold uppercase tracking-widest text-softgray block font-mono">ABOUT BINDPAY</span>
+                    <h3 class="text-2xl font-bold">
+                        Building the Trust Layer for Digital Commerce
+                    </h3>
+                    <p class="text-softgray text-sm sm:text-base leading-relaxed">
+                        BindPay is a fintech startup concept focused on improving trust in transactions. We aim to bridge the gap between buyers and sellers through a structured and transparent transaction experience.
+                    </p>
+                    <div class="pt-4 border-t border-white/10 flex items-center gap-4 text-xs text-softgray">
+                        <div class="flex items-center gap-1.5">
+                            <i class="fa-solid fa-location-dot text-acidlime"></i>
+                            <span>Pakistan Startup Initiative</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <i class="fa-solid fa-graduation-cap text-acidlime"></i>
+                            <span>Entrepreneurship Competition Project</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 bg-obsidian text-offwhite relative overflow-hidden">
+        <div class="absolute bottom-0 right-0 w-[500px] h-[300px] bg-electricpurple/5 rounded-full blur-[140px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <div class="lg:col-span-6 space-y-6">
+                    <span class="text-xs font-bold uppercase tracking-widest text-acidlime block font-mono">GET IN TOUCH</span>
+                    <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
+                        LET'S BUILD TRUST INTO EVERY DEAL.
+                    </h2>
+                    <p class="text-softgray text-base leading-relaxed">
+                        We're open to connecting with investors, incubators, and potential founding team members who believe in what we're building
+                    </p>
+
+                    <div class="space-y-4 pt-4">
+                        <div class="flex items-center gap-4 bg-carddark p-4 rounded-xl border border-white/10 max-w-md">
+                            <div class="w-10 h-10 rounded-lg bg-acidlime/10 text-acidlime flex items-center justify-center font-bold">
+                                <i class="fa-solid fa-user-tie"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs text-softgray">Focal Representative</div>
+                                <div class="text-base font-semibold text-offwhite">Mirza Mahad Baig</div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-4 bg-carddark p-4 rounded-xl border border-white/10 max-w-md">
+                            <div class="w-10 h-10 rounded-lg bg-acidlime/10 text-acidlime flex items-center justify-center font-bold">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs text-softgray">Contact Number</div>
+                                <div class="text-base font-semibold text-offwhite font-mono">03258734745</div>
+                            </div>
+                        </div>
+
+                        <!-- WhatsApp Action Link -->
+                        <div class="pt-2">
+                            <a href="https://wa.me/923258734745?text=Hi%20Mirza%20Mahad%20Baig,%20I%20reviewed%20the%20BindPay%20startup%20concept%20and%20would%20like%20to%20connect." target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-3 bg-[#25D366] text-obsidian font-bold px-6 py-3.5 rounded-full text-sm transition-all duration-300 hover:opacity-90">
+                                <i class="fa-brands fa-whatsapp text-lg"></i>
+                                <span>Chat via WhatsApp (+92 325 8734745)</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+    <!-- Footer -->
+    <footer class="bg-carddarker border-t border-white/10 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-white/10">
+                <div class="flex items-center gap-3">
+                    <img src="logo.png.png" alt="BindPay Logo" class="h-8 w-auto object-contain">
+                </div>
+                <div class="text-softgray text-xs text-center md:text-right">
+                    <p class="font-semibold text-offwhite">BindPay Technologies Pvt Ltd</p>
+                    <p class="italic text-softgray mt-1">"Don't Just Pay. Bind the Deal."</p>
+                </div>
+            </div>
+
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-softgray">
+                <p>&copy; 2026 BindPay. All rights reserved. Early-stage startup concept.</p>
+                <div class="flex items-center space-x-6">
+                    <a href="#home" class="hover:text-acidlime transition-colors">Privacy Policy</a>
+                    <a href="#home" class="hover:text-acidlime transition-colors">Terms of Concept</a>
+                    <a href="#contact" class="hover:text-acidlime transition-colors">Support</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Mobile Menu & Simulator -->
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Interactive Transaction Simulator in Hero
+        let currentStep = 1;
+        const simStatuses = [
+            "1. Terms Agreed",
+            "2. Payment Secured in Escrow",
+            "3. Fulfilled & Completed"
+        ];
+        const simProgressWidths = ["33%", "66%", "100%"];
+
+        function nextSimStep() {
+            currentStep = currentStep >= 3 ? 1 : currentStep + 1;
+            document.getElementById('sim-status').innerText = simStatuses[currentStep - 1];
+            document.getElementById('sim-step').innerText = `Step ${currentStep} of 3`;
+            document.getElementById('sim-progress').style.width = simProgressWidths[currentStep - 1];
+        }
+
+        // Contact Form Handler (without alert)
+        function handleContactSubmit(event) {
+            event.preventDefault();
+            const form = document.getElementById('contact-form');
+            const successBox = document.getElementById('form-success');
+            
+            form.style.display = 'none';
+            successBox.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
